@@ -17,18 +17,16 @@ struct MenuBarIcon: View {
     let pressure: ThermalPressure
 
     var body: some View {
-        Image(systemName: pressure.iconName)
-            .symbolRenderingMode(.palette)
-            .foregroundStyle(iconColor)
+        Image(systemName: iconName)
     }
 
-    private var iconColor: Color {
+    private var iconName: String {
         switch pressure {
-        case .nominal: return .green
-        case .moderate: return .yellow
-        case .heavy: return .orange
-        case .trapping, .sleeping: return .red
-        case .unknown: return .gray
+        case .nominal: return "thermometer.low"
+        case .moderate: return "thermometer.medium"
+        case .heavy: return "thermometer.high"
+        case .trapping, .sleeping: return "thermometer.sun.fill"
+        case .unknown: return "thermometer.variable.and.figure"
         }
     }
 }
