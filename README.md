@@ -2,20 +2,28 @@
 
 A macOS menu bar app that monitors thermal pressure and alerts you when your Mac is being throttled.
 
+![screenshot](./assets/screenshot.png)
+
 ## Features
 
 - Displays thermal pressure state in the menu bar using different thermometer icons
-- Notifies you when thermal throttling begins
+- Configurable notifications:
+  - When heavy throttling begins
+  - When critical throttling occurs (trapping/sleeping)
+  - When throttling stops (recovery)
+  - Optional notification sounds
 - Lightweight background monitoring via a launch daemon
+- Helper auto-update detection when a new version is available
 
 ## Thermal States
 
-| Icon                   | State             | Description               |
-| ---------------------- | ----------------- | ------------------------- |
-| `thermometer.low`      | Nominal           | Normal operation          |
-| `thermometer.medium`   | Moderate          | Elevated thermal pressure |
-| `thermometer.high`     | Heavy             | Active throttling         |
-| `thermometer.sun.fill` | Trapping/Sleeping | Severe throttling         |
+| Icon                   | State             | Description                    |
+| ---------------------- | ----------------- | ------------------------------ |
+| `thermometer.low`      | Nominal           | Normal operation               |
+| `thermometer.medium`   | Moderate          | Elevated thermal pressure      |
+| `thermometer.high`     | Heavy             | Active throttling              |
+| `thermometer.sun.fill` | Trapping/Sleeping | Severe throttling              |
+| `thermometer`          | Unknown           | Daemon not responding or stale |
 
 ## Installation
 
