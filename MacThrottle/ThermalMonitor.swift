@@ -82,7 +82,7 @@ final class ThermalMonitor {
         didSet { UserDefaults.standard.set(notifyOnRecovery, forKey: "notifyOnRecovery") }
     }
 
-    var notificationSound: Bool = UserDefaults.standard.object(forKey: "notificationSound") as? Bool ?? true {
+    var notificationSound: Bool = UserDefaults.standard.object(forKey: "notificationSound") as? Bool ?? false {
         didSet { UserDefaults.standard.set(notificationSound, forKey: "notificationSound") }
     }
 
