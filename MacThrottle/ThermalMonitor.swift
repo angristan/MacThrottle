@@ -101,9 +101,9 @@ final class ThermalMonitor {
             return
         }
 
-        // Check if data is fresh (within last 10 seconds)
+        // Check if data is fresh (within last 15 seconds)
         let now = Int(Date().timeIntervalSince1970)
-        daemonRunning = (now - state.timestamp) < 10
+        daemonRunning = (now - state.timestamp) < 15
 
         let newPressure = state.thermalPressure
 

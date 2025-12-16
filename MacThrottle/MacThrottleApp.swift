@@ -205,7 +205,7 @@ enum HelperInstaller {
 
             echo "{\\"pressure\\":\\"$PRESSURE\\",\\"timestamp\\":$(date +%s)}" > "$OUTPUT_FILE"
             chmod 644 "$OUTPUT_FILE"
-            sleep 3
+            sleep 10
         done
         """
 
