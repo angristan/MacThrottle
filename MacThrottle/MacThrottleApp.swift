@@ -60,7 +60,7 @@ struct MenuContent: View {
                 }
             }
         } else {
-            Text("Helper Not Installed")
+            Text("Helper not installed or not running")
                 .font(.headline)
             Text("Required to monitor thermal pressure")
                 .font(.caption)
