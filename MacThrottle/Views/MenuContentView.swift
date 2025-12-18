@@ -50,10 +50,13 @@ struct MenuContentView: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            Toggle("On Heavy", isOn: $monitor.notifyOnHeavy)
-            Toggle("On Critical", isOn: $monitor.notifyOnCritical)
-            Toggle("On Recovery", isOn: $monitor.notifyOnRecovery)
-            Toggle("Sound", isOn: $monitor.notificationSound)
+            Group {
+                Toggle("On Heavy", isOn: $monitor.notifyOnHeavy)
+                Toggle("On Critical", isOn: $monitor.notifyOnCritical)
+                Toggle("On Recovery", isOn: $monitor.notifyOnRecovery)
+                Toggle("Sound", isOn: $monitor.notificationSound)
+            }
+            .controlSize(.small)
 
             Divider()
 
