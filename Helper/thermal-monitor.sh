@@ -8,11 +8,12 @@ while true; do
     # Run powermetrics for one sample and extract thermal pressure
     THERMAL_OUTPUT=$(powermetrics -s thermal -n 1 -i 1 2>/dev/null | grep -i "Current pressure level")
 
-    # Extract the pressure level (Nominal, Moderate, Heavy, Trapping, Sleeping)
+    # Extract the pressure level (Nominal, Moderate, Heavy, Critical)
+    # Note: "trapping" and "sleeping" from powermetrics are both mapped to "critical"
     if echo "$THERMAL_OUTPUT" | grep -qi "sleeping"; then
-        PRESSURE="sleeping"
+        PRESSURE="critical"
     elif echo "$THERMAL_OUTPUT" | grep -qi "trapping"; then
-        PRESSURE="trapping"
+        PRESSURE="critical"
     elif echo "$THERMAL_OUTPUT" | grep -qi "heavy"; then
         PRESSURE="heavy"
     elif echo "$THERMAL_OUTPUT" | grep -qi "moderate"; then

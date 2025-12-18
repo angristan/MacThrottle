@@ -12,19 +12,19 @@ A macOS menu bar app that monitors thermal pressure and alerts you when your Mac
 - Statistics showing time spent in each thermal state
 - Configurable notifications:
   - When heavy throttling begins
-  - When critical throttling occurs (trapping/sleeping)
+  - When critical throttling occurs
   - When throttling stops (recovery)
   - Optional notification sounds
 - No helper daemon or admin privileges required
 
 ## Thermal States
 
-| Icon                   | State             | Description               |
-| ---------------------- | ----------------- | ------------------------- |
-| `thermometer.low`      | Nominal           | Normal operation          |
-| `thermometer.medium`   | Moderate          | Elevated thermal pressure |
-| `thermometer.high`     | Heavy             | Active throttling         |
-| `thermometer.sun.fill` | Trapping/Sleeping | Severe throttling         |
+| Icon                   | State    | Description               |
+| ---------------------- | -------- | ------------------------- |
+| `thermometer.low`      | Nominal  | Normal operation          |
+| `thermometer.medium`   | Moderate | Elevated thermal pressure |
+| `thermometer.high`     | Heavy    | Active throttling         |
+| `thermometer.sun.fill` | Critical | Severe throttling         |
 
 ## Installation
 
@@ -59,7 +59,7 @@ Or open `MacThrottle.xcodeproj` in Xcode and press `Cmd+R` to build and run.
 
 ### Thermal Pressure
 
-MacThrottle reads thermal pressure using the Darwin notification system ([`notify_get_state`](https://developer.apple.com/documentation/darwinnotify/notify_get_state)), specifically the `com.apple.system.thermalpressurelevel` notification. This provides the same 5-level granularity as `powermetrics -s thermal` without requiring root privileges.
+MacThrottle reads thermal pressure using the Darwin notification system ([`notify_get_state`](https://developer.apple.com/documentation/darwinnotify/notify_get_state)), specifically the `com.apple.system.thermalpressurelevel` notification. The system reports 5 levels (nominal, moderate, heavy, trapping, sleeping), but MacThrottle consolidates the last two into "critical" since they're rarely reached in practice. Heavy is where throttling really kicks in.
 
 > **Note:** This notification name is not publicly documented by Apple. It comes from the private [`OSThermalNotification.h`](https://github.com/tripleCC/Laboratory/blob/a7d1192f25d718e3b01a015ca35bfcef4419e883/AppleSources/Libc-1272.250.1/include/libkern/OSThermalNotification.h#L44-L48) header (as `kOSThermalNotificationPressureLevelName`) and has been available since macOS 10.10. See [Thermals and macOS](https://dmaclach.medium.com/thermals-and-macos-c0db81062889) for more details on macOS thermal APIs.
 > You can see it implemented [in Bazel for example](https://github.com/bazelbuild/bazel/blob/83bddd49aae9e42b4aff1c79c4f437a31b9aec8c/src/main/native/darwin/system_thermal_monitor_jni.cc#L27).

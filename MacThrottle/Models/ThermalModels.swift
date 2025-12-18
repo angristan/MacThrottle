@@ -5,8 +5,7 @@ enum ThermalPressure: String, Codable {
     case nominal
     case moderate
     case heavy
-    case trapping
-    case sleeping
+    case critical
     case unknown
 
     var displayName: String {
@@ -14,15 +13,14 @@ enum ThermalPressure: String, Codable {
         case .nominal: return "Nominal"
         case .moderate: return "Moderate"
         case .heavy: return "Heavy"
-        case .trapping: return "Trapping"
-        case .sleeping: return "Sleeping"
+        case .critical: return "Critical"
         case .unknown: return "Unknown"
         }
     }
 
     var isThrottling: Bool {
         switch self {
-        case .heavy, .trapping, .sleeping:
+        case .heavy, .critical:
             return true
         default:
             return false
@@ -34,7 +32,7 @@ enum ThermalPressure: String, Codable {
         case .nominal: return .green
         case .moderate: return .yellow
         case .heavy: return .orange
-        case .trapping, .sleeping: return .red
+        case .critical: return .red
         case .unknown: return .gray
         }
     }

@@ -112,8 +112,8 @@ final class ThermalMonitor {
         switch pressure {
         case .heavy:
             return notifyOnHeavy && !previous.isThrottling
-        case .trapping, .sleeping:
-            return notifyOnCritical && (previous != .trapping && previous != .sleeping)
+        case .critical:
+            return notifyOnCritical && previous != .critical
         default:
             return false
         }
@@ -126,7 +126,7 @@ final class ThermalMonitor {
     private func sendThrottleNotification(pressure: ThermalPressure) {
         let content = UNMutableNotificationContent()
         content.title = "Thermal Throttling"
-        content.body = pressure == .trapping || pressure == .sleeping
+        content.body = pressure == .critical
             ? "Your Mac is severely throttled!"
             : "Your Mac is being throttled (Heavy pressure)"
         if notificationSound {

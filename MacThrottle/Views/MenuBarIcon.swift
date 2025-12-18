@@ -14,7 +14,7 @@ struct MenuBarIcon: View {
         case .nominal: return "thermometer.low"
         case .moderate: return "thermometer.medium"
         case .heavy: return "thermometer.high"
-        case .trapping, .sleeping: return "thermometer.sun.fill"
+        case .critical: return "thermometer.sun.fill"
         case .unknown: return "thermometer.variable.and.figure"
         }
     }

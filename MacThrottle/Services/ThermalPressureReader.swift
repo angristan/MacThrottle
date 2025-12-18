@@ -38,8 +38,7 @@ final class ThermalPressureReader {
         case 0: return .nominal
         case 1: return .moderate
         case 2: return .heavy
-        case 3: return .trapping
-        case 4: return .sleeping
+        case 3, 4: return .critical
         default: return .unknown
         }
     }

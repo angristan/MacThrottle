@@ -223,7 +223,7 @@ struct TimeBreakdownView: View {
     let timeInEachState: [(pressure: ThermalPressure, duration: TimeInterval)]
     let totalDuration: TimeInterval
 
-    private static let allStates: [ThermalPressure] = [.nominal, .moderate, .heavy, .trapping, .sleeping]
+    private static let allStates: [ThermalPressure] = [.nominal, .moderate, .heavy, .critical]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -233,8 +233,13 @@ struct TimeBreakdownView: View {
                     Circle()
                         .fill(pressure.color)
                         .frame(width: 8, height: 8)
-                    Text(pressure.displayName)
-                        .frame(width: 60, alignment: .leading)
+                    HStack(spacing: 2) {
+                        Text(pressure.displayName)
+                        if pressure.isThrottling {
+                            Text("(throttling)")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
                     Spacer()
                     Text(formatDuration(duration))
                         .foregroundStyle(.secondary)
