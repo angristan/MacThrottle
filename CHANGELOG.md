@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/angristan/MacThrottle/compare/v1.1.0...v1.2.0) (2025-12-18)
+
+
+### Features
+
+* remove helper daemon, read thermal pressure directly ([20f3861](https://github.com/angristan/MacThrottle/commit/20f3861073634b7c42fc427eb151c07ba2bfe2c6))
+
 # [1.1.0](https://github.com/angristan/MacThrottle/compare/v1.0.0...v1.1.0) (2025-12-18)
 
 
