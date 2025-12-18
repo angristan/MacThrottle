@@ -4,11 +4,13 @@ import IOKit
 // MARK: - SMC Temperature Reader
 // SMC approach based on https://github.com/exelban/stats (MIT License)
 
-private typealias SMCBytes = (UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
-                              UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
-                              UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
-                              UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
-                              UInt8, UInt8, UInt8, UInt8)
+// swiftlint:disable:next large_tuple
+private typealias SMCBytes = (
+    UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
+    UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
+    UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8,
+    UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8, UInt8
+)
 
 private struct SMCKeyData {
     struct KeyInfo {
@@ -18,7 +20,9 @@ private struct SMCKeyData {
     }
 
     var key: UInt32 = 0
+    // swiftlint:disable:next large_tuple
     var vers: (UInt8, UInt8, UInt8, UInt8, UInt16) = (0, 0, 0, 0, 0)
+    // swiftlint:disable:next large_tuple
     var pLimitData: (UInt16, UInt16, UInt32, UInt32, UInt32) = (0, 0, 0, 0, 0)
     var keyInfo = KeyInfo()
     var padding: UInt16 = 0

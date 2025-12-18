@@ -53,7 +53,10 @@ struct HistoryGraphView: View {
         let fraction = x / width
         let targetTime = first.timestamp.addingTimeInterval(totalDuration * fraction)
 
-        return history.min(by: { abs($0.timestamp.timeIntervalSince(targetTime)) < abs($1.timestamp.timeIntervalSince(targetTime)) })
+        return history.min { entry1, entry2 in
+            abs(entry1.timestamp.timeIntervalSince(targetTime)) <
+                abs(entry2.timestamp.timeIntervalSince(targetTime))
+        }
     }
 
     var body: some View {
@@ -62,7 +65,8 @@ struct HistoryGraphView: View {
                 let sampled = downsampledHistory
                 guard sampled.count >= 2 else { return }
 
-                let startTime = sampled.first!.timestamp
+                guard let firstEntry = sampled.first else { return }
+                let startTime = firstEntry.timestamp
                 let endTime = Date()
                 let totalDuration = endTime.timeIntervalSince(startTime)
 
@@ -73,8 +77,10 @@ struct HistoryGraphView: View {
                     let current = sampled[i]
                     let next = sampled[i + 1]
 
-                    let startX = floor(CGFloat(current.timestamp.timeIntervalSince(startTime) / totalDuration) * size.width)
-                    let endX = ceil(CGFloat(next.timestamp.timeIntervalSince(startTime) / totalDuration) * size.width)
+                    let startFraction = current.timestamp.timeIntervalSince(startTime) / totalDuration
+                    let endFraction = next.timestamp.timeIntervalSince(startTime) / totalDuration
+                    let startX = floor(CGFloat(startFraction) * size.width)
+                    let endX = ceil(CGFloat(endFraction) * size.width)
 
                     let rect = CGRect(x: startX, y: 0, width: max(endX - startX, 1), height: size.height)
                     context.fill(Path(rect), with: .color(current.pressure.color.opacity(0.3)))
@@ -82,7 +88,8 @@ struct HistoryGraphView: View {
 
                 // Draw last segment to now
                 if let last = sampled.last {
-                    let startX = floor(CGFloat(last.timestamp.timeIntervalSince(startTime) / totalDuration) * size.width)
+                    let lastFraction = last.timestamp.timeIntervalSince(startTime) / totalDuration
+                    let startX = floor(CGFloat(lastFraction) * size.width)
                     let rect = CGRect(x: startX, y: 0, width: size.width - startX, height: size.height)
                     context.fill(Path(rect), with: .color(last.pressure.color.opacity(0.3)))
                 }
@@ -121,8 +128,10 @@ struct HistoryGraphView: View {
 
                 // Temperature range labels
                 let range = temperatureRange
-                let maxLabel = Text("\(Int(range.max))°").font(.system(size: 8)).foregroundColor(.secondary.opacity(0.8))
-                let minLabel = Text("\(Int(range.min))°").font(.system(size: 8)).foregroundColor(.secondary.opacity(0.8))
+                let labelStyle = Font.system(size: 8)
+                let labelColor = Color.secondary.opacity(0.8)
+                let maxLabel = Text("\(Int(range.max))°").font(labelStyle).foregroundColor(labelColor)
+                let minLabel = Text("\(Int(range.min))°").font(labelStyle).foregroundColor(labelColor)
                 context.draw(maxLabel, at: CGPoint(x: 4, y: 4), anchor: .topLeading)
                 context.draw(minLabel, at: CGPoint(x: 4, y: size.height - 4), anchor: .bottomLeading)
 
