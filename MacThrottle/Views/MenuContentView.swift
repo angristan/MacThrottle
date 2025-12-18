@@ -46,6 +46,18 @@ struct MenuContentView: View {
 
             Divider()
 
+            Text("Settings")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            Toggle("Launch at Login", isOn: Binding(
+                get: { LaunchAtLoginManager.shared.isEnabled },
+                set: { LaunchAtLoginManager.shared.isEnabled = $0 }
+            ))
+            .controlSize(.small)
+
+            Divider()
+
             Text("Notifications")
                 .font(.caption)
                 .foregroundStyle(.secondary)
