@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/angristan/MacThrottle/compare/v1.2.0...v1.2.1) (2025-12-18)
+
+
+### Bug Fixes
+
+* remove horizontal line artifacts in history graph ([497566d](https://github.com/angristan/MacThrottle/commit/497566d81e43cd5ab4437bbe58d4557fd4be4d97))
+* silence unused result warning for notify_cancel ([7fa7d80](https://github.com/angristan/MacThrottle/commit/7fa7d80dad866649bf04d650a07c79c32fbe1504))
+
 # [1.2.0](https://github.com/angristan/MacThrottle/compare/v1.1.0...v1.2.0) (2025-12-18)
 
 
