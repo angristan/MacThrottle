@@ -15,6 +15,7 @@ A macOS menu bar app that monitors thermal pressure and alerts you when your Mac
   - When critical throttling occurs
   - When throttling stops (recovery)
   - Optional notification sounds
+- Launch at Login option
 - No helper daemon or admin privileges required
 
 ## Thermal States
