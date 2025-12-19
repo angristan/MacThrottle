@@ -175,6 +175,7 @@ struct HistoryGraphView: View {
             }
         }
         .frame(height: 70)
+        .drawingGroup()
         .clipShape(RoundedRectangle(cornerRadius: 6))
         .overlay(RoundedRectangle(cornerRadius: 6).stroke(.secondary.opacity(0.3), lineWidth: 1))
         .onContinuousHover { phase in
