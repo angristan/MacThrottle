@@ -87,7 +87,7 @@ MacThrottle displays CPU temperature alongside thermal pressure using two method
 
 The **System Management Controller (SMC)** is a hardware chip in every Mac that manages thermal sensors, fans, and power. MacThrottle reads directly from the SMC via IOKit to get actual CPU core temperatures.
 
-- Reads chip-specific sensor keys (different for M1, M2, M3, and Intel Macs)
+- Reads chip-specific sensor keys (different for M1, M2, M3)
 - Provides accurate per-core temperature readings
 - Based on the approach used by [Stats](https://github.com/exelban/stats)
 

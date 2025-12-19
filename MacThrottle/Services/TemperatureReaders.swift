@@ -106,7 +106,7 @@ final class SMCReader {
         guard call(input: &input, output: &output) == kIOReturnSuccess else { return nil }
 
         let dataSize = output.keyInfo.dataSize
-        guard dataSize > 0 else { return nil }
+        guard dataSize == 4 else { return nil }
 
         input.keyInfo.dataSize = dataSize
         input.data8 = 5 // kSMCReadBytes
@@ -118,17 +118,9 @@ final class SMCReader {
         let b2 = output.bytes.2
         let b3 = output.bytes.3
 
-        var value: Double = 0
-
-        if dataSize == 4 {
-            // Float format (flt) - Apple Silicon
-            let bytes = [b0, b1, b2, b3]
-            value = Double(bytes.withUnsafeBytes { $0.load(as: Float.self) })
-        } else if dataSize == 2 {
-            // sp78 format (signed 8.8 fixed point) - Intel Macs
-            let intValue = Double(Int16(bitPattern: UInt16(b0) << 8 | UInt16(b1)))
-            value = intValue / 256.0
-        }
+        // Float format (flt) - Apple Silicon
+        let bytes = [b0, b1, b2, b3]
+        let value = Double(bytes.withUnsafeBytes { $0.load(as: Float.self) })
 
         return value > 20 && value < 150 ? value : nil
     }
