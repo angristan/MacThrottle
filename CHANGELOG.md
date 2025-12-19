@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/angristan/MacThrottle/compare/v1.4.0...v1.4.1) (2025-12-19)
+
+
+### Performance Improvements
+
+* use drawingGroup for smoother graph hover on high refresh displays ([b85e55c](https://github.com/angristan/MacThrottle/commit/b85e55c65423a2a8385dcf40b0853a38e5bbd130))
+
 # [1.4.0](https://github.com/angristan/MacThrottle/compare/v1.3.0...v1.4.0) (2025-12-18)
 
 
