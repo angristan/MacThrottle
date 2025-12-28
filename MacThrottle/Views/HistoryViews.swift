@@ -267,12 +267,21 @@ struct HistoryGraphView: View {
                 let timeAgo = Int(Date().timeIntervalSince(entry.timestamp))
                 let timeStr = timeAgo < 60 ? "\(timeAgo)s ago" : "\(timeAgo / 60)m ago"
                 let fanStr = showFanSpeed ? entry.fanSpeed.map { " • Fan \(Int($0))%" } ?? "" : ""
-                Text("\(Int(temp))° • \(entry.pressure.displayName)\(fanStr) • \(timeStr)")
-                    .font(.system(size: 8, weight: .medium))
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 3)
-                    .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 6))
-                    .padding(4)
+                if #available(macOS 26.0, *) {
+                    Text("\(Int(temp))° • \(entry.pressure.displayName)\(fanStr) • \(timeStr)")
+                        .font(.system(size: 8, weight: .medium))
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 3)
+                        .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 6))
+                        .padding(4)
+                } else {
+                    Text("\(Int(temp))° • \(entry.pressure.displayName)\(fanStr) • \(timeStr)")
+                        .font(.system(size: 8, weight: .medium))
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 3)
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 6))
+                        .padding(4)
+                }
             }
         }
     }
