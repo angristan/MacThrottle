@@ -229,8 +229,9 @@ final class SMCReader {
 
         // flt type (4 bytes float) - used by Apple Silicon
         if dataSize == 4 {
-            let bytes = [output.bytes.0, output.bytes.1, output.bytes.2, output.bytes.3]
-            return Double(bytes.withUnsafeBytes { $0.load(as: Float.self) })
+            let bitPattern = UInt32(output.bytes.0) | (UInt32(output.bytes.1) << 8) |
+                           (UInt32(output.bytes.2) << 16) | (UInt32(output.bytes.3) << 24)
+            return Double(Float(bitPattern: bitPattern))
         }
 
         // fpe2 type (2 bytes fixed point) - used by some older keys
@@ -259,14 +260,10 @@ final class SMCReader {
 
         guard call(input: &input, output: &output) == kIOReturnSuccess else { return nil }
 
-        let b0 = output.bytes.0
-        let b1 = output.bytes.1
-        let b2 = output.bytes.2
-        let b3 = output.bytes.3
-
         // Float format (flt) - Apple Silicon
-        let bytes = [b0, b1, b2, b3]
-        let value = Double(bytes.withUnsafeBytes { $0.load(as: Float.self) })
+        let bitPattern = UInt32(output.bytes.0) | (UInt32(output.bytes.1) << 8) |
+                        (UInt32(output.bytes.2) << 16) | (UInt32(output.bytes.3) << 24)
+        let value = Double(Float(bitPattern: bitPattern))
 
         return value > 20 && value < 150 ? value : nil
     }
