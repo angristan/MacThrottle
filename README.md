@@ -1,14 +1,19 @@
-# MacThrottle
+# MacThrottle (Pre-macOS 26 Fork)
 
-[![GitHub Release](https://img.shields.io/github/v/release/angristan/MacThrottle)](https://github.com/angristan/MacThrottle/releases)
-[![CI](https://github.com/angristan/MacThrottle/actions/workflows/ci.yml/badge.svg)](https://github.com/angristan/MacThrottle/actions/workflows/ci.yml)
+> **Fork Notice:** This is a fork of [angristan/MacThrottle](https://github.com/angristan/MacThrottle) for users running **macOS 15+** who haven't upgraded to macOS 26 (Tahoe) yet. The original project requires macOS 26 for new UI features (glassEffect). This fork maintains compatibility with macOS 15 (Sequoia) and later pre-26 versions.
+>
+> **macOS 26+ (Tahoe) kullanıcıları:** [angristan/MacThrottle](https://github.com/angristan/MacThrottle/releases) reposundan orijinal sürümü indirin.
+
+[![GitHub Release](https://img.shields.io/github/v/release/trkaplan/MacThrottle)](https://github.com/trkaplan/MacThrottle/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![macOS](https://img.shields.io/badge/macOS-15+-blue)](https://github.com/angristan/MacThrottle)
+[![macOS](https://img.shields.io/badge/macOS-15+-blue)](https://github.com/trkaplan/MacThrottle)
 [![Swift](https://img.shields.io/badge/Swift-6-orange)](https://swift.org)
 
 A lightweight macOS menu bar app that monitors thermal pressure and alerts you when your Mac is being throttled. No admin privileges required.
 
-![screenshot](./assets/screenshot.png)
+| This Fork (macOS 15+) | Original (macOS 26+) |
+|:---------------------:|:--------------------:|
+| ![pre26](./assets/screenshot-pre26-fork.png) | ![original](./assets/screenshot.png) |
 
 ## Features
 
@@ -36,13 +41,18 @@ A lightweight macOS menu bar app that monitors thermal pressure and alerts you w
 
 ## Installation
 
-Since the app is not signed, Gatekeeper may block it on first launch. You can either download a pre-built version from Releases and remove the quarantine attribute, or build it locally with Xcode to sign it with your own certificate.
+| macOS Version | Download From |
+|---------------|---------------|
+| **macOS 15-25** (pre-Tahoe) | [trkaplan/MacThrottle](https://github.com/trkaplan/MacThrottle/releases) (this fork) |
+| **macOS 26+** (Tahoe) | [angristan/MacThrottle](https://github.com/angristan/MacThrottle/releases) (original) |
 
-Sorry about the inconvenience! I may get an Apple Developer account in the future to sign the app properly.
+Since the app is not signed, Gatekeeper may block it on first launch. You can either download a pre-built version from Releases and remove the quarantine attribute, or build it locally with Xcode to sign it with your own certificate.
 
 ### Option 1: Download from Releases
 
-1. Download the latest `.dmg` from [Releases](https://github.com/angristan/MacThrottle/releases)
+> **Note:** This fork is for **macOS 15-25**. If you're on **macOS 26+**, download from [angristan/MacThrottle](https://github.com/angristan/MacThrottle/releases) instead.
+
+1. Download the latest `.dmg` from [Releases](https://github.com/trkaplan/MacThrottle/releases)
 2. Open it, and drag `MacThrottle.app` to your Applications folder
 3. Remove quarantine attribute: `xattr -r -d com.apple.quarantine /Applications/MacThrottle.app`
 4. Open the app
@@ -53,7 +63,7 @@ Building locally automatically signs the app with your development certificate, 
 
 ```bash
 # Clone the repo
-git clone https://github.com/angristan/MacThrottle.git
+git clone https://github.com/trkaplan/MacThrottle.git
 cd MacThrottle
 
 # Build with Xcode
@@ -123,4 +133,4 @@ Fanless Macs (like MacBook Air) won't show fan data or the "Show Fan Speed" togg
 
 ## Requirements
 
-- macOS 26.0+ (Tahoe)
+- macOS 15.0+ (Sequoia) — for macOS 26+, use [angristan/MacThrottle](https://github.com/angristan/MacThrottle)
