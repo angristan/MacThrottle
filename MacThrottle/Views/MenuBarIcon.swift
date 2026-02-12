@@ -13,6 +13,7 @@ struct MenuBarIcon: View {
             if showTemperature, let temp = temperature {
                 Text("\(Int(temp.rounded()))°")
                     .monospacedDigit()
+                    .frame(minWidth: 30)
             }
         }
     }
@@ -26,4 +27,9 @@ struct MenuBarIcon: View {
         case .unknown: return "thermometer.variable.and.figure"
         }
     }
+}
+
+#Preview {
+    MenuBarIcon(pressure: .nominal, temperature: 101.0, showTemperature: true)
+    MenuBarIcon(pressure: .nominal, temperature: 99.0, showTemperature: true)
 }
