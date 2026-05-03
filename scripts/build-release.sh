@@ -15,9 +15,6 @@ xcodebuild -project MacThrottle.xcodeproj \
     -scheme MacThrottle \
     -configuration Release \
     -derivedDataPath build \
-    CODE_SIGN_IDENTITY="" \
-    CODE_SIGNING_REQUIRED=NO \
-    CODE_SIGNING_ALLOWED=NO \
     clean build
 
 # Create release directory
