@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/angristan/MacThrottle/compare/v1.8.1...v1.8.2) (2026-07-11)
+
+
+### Bug Fixes
+
+* release HID services array ([#35](https://github.com/angristan/MacThrottle/issues/35)) ([36308e2](https://github.com/angristan/MacThrottle/commit/36308e242a7541cc53abcf922bbff9fac8e2e4ff))
+
 ## [1.8.1](https://github.com/angristan/MacThrottle/compare/v1.8.0...v1.8.1) (2026-05-04)
 
 
