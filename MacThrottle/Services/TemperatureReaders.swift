@@ -327,7 +327,7 @@ final class HIDTemperatureReader {
 
     private typealias CreateFunc = @convention(c) (CFAllocator?) -> IOHIDEventSystemClientRef?
     private typealias SetMatchingFunc = @convention(c) (IOHIDEventSystemClientRef, CFDictionary?) -> Void
-    private typealias CopyServicesFunc = @convention(c) (IOHIDEventSystemClientRef) -> CFArray?
+    private typealias CopyServicesFunc = @convention(c) (IOHIDEventSystemClientRef) -> Unmanaged<CFArray>?
     private typealias CopyEventFunc = @convention(c) (IOHIDServiceClientRef, Int64, Int32, Int64) -> IOHIDEventRef?
     private typealias GetFloatValueFunc = @convention(c) (IOHIDEventRef, UInt32) -> Double
     private typealias ReleaseFunc = @convention(c) (OpaquePointer) -> Void
@@ -375,8 +375,8 @@ final class HIDTemperatureReader {
         let matching: [String: Any] = ["PrimaryUsagePage": 0xff00, "PrimaryUsage": 5]
         setMatching(client, matching as CFDictionary)
 
-        guard let services = copyServices(client) else { return nil }
-        // services (CFArray) is managed by Swift ARC
+        guard let copiedServices = copyServices(client) else { return nil }
+        let services = copiedServices.takeRetainedValue()
 
         var maxTemp: Double = 0
         let count = CFArrayGetCount(services)
