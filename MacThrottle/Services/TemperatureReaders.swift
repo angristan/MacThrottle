@@ -338,6 +338,7 @@ final class HIDTemperatureReader {
     private var copyEvent: CopyEventFunc?
     private var getFloatValue: GetFloatValueFunc?
     private var release: ReleaseFunc?
+    private var client: IOHIDEventSystemClientRef?
     private var isInitialized = false
 
     private let kIOHIDEventTypeTemperature: Int64 = 15
@@ -346,6 +347,12 @@ final class HIDTemperatureReader {
     nonisolated(unsafe) static let shared = HIDTemperatureReader()
 
     private init() {}
+
+    deinit {
+        guard let release, let client else { return }
+
+        release(client)
+    }
 
     private func ensureInitialized() {
         guard !isInitialized else { return }
@@ -359,21 +366,22 @@ final class HIDTemperatureReader {
         copyEvent = unsafeBitCast(dlsym(handle, "IOHIDServiceClientCopyEvent"), to: CopyEventFunc?.self)
         getFloatValue = unsafeBitCast(dlsym(handle, "IOHIDEventGetFloatValue"), to: GetFloatValueFunc?.self)
         release = unsafeBitCast(dlsym(handle, "CFRelease"), to: ReleaseFunc?.self)
+
+        guard let create else { return }
+
+        client = create(kCFAllocatorDefault)
+
+        guard let setMatching, let client else { return }
+
+        let matching: [String: Any] = ["PrimaryUsagePage": 0xff00, "PrimaryUsage": 5]
+        setMatching(client, matching as CFDictionary)
     }
 
     /// Returns the maximum CPU die temperature (PMU tdie sensors)
     func readCPUTemperature() -> TemperatureReading? {
         ensureInitialized()
 
-        guard let create, let setMatching, let copyServices, let copyEvent, let getFloatValue, let release else {
-            return nil
-        }
-
-        guard let client = create(kCFAllocatorDefault) else { return nil }
-        defer { release(client) }
-
-        let matching: [String: Any] = ["PrimaryUsagePage": 0xff00, "PrimaryUsage": 5]
-        setMatching(client, matching as CFDictionary)
+        guard let copyServices, let copyEvent, let getFloatValue, let release, let client else { return nil }
 
         guard let copiedServices = copyServices(client) else { return nil }
         let services = copiedServices.takeRetainedValue()
