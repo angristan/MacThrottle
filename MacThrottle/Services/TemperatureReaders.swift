@@ -347,10 +347,10 @@ final class HIDTemperatureReader {
     nonisolated(unsafe) static let shared = HIDTemperatureReader()
 
     private init() {}
-    
+
     deinit {
         guard let release, let client else { return }
-        
+
         release(client)
     }
 
@@ -366,13 +366,13 @@ final class HIDTemperatureReader {
         copyEvent = unsafeBitCast(dlsym(handle, "IOHIDServiceClientCopyEvent"), to: CopyEventFunc?.self)
         getFloatValue = unsafeBitCast(dlsym(handle, "IOHIDEventGetFloatValue"), to: GetFloatValueFunc?.self)
         release = unsafeBitCast(dlsym(handle, "CFRelease"), to: ReleaseFunc?.self)
-        
+
         guard let create else { return }
-        
+
         client = create(kCFAllocatorDefault)
-        
+
         guard let setMatching, let client else { return }
-        
+
         let matching: [String: Any] = ["PrimaryUsagePage": 0xff00, "PrimaryUsage": 5]
         setMatching(client, matching as CFDictionary)
     }
