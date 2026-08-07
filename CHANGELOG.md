@@ -1,3 +1,15 @@
+## [1.8.3](https://github.com/angristan/MacThrottle/compare/v1.8.2...v1.8.3) (2026-08-07)
+
+
+### Bug Fixes
+
+* **ci:** validate pull request titles ([cf5e5d9](https://github.com/angristan/MacThrottle/commit/cf5e5d9efb2cb39cc0adf6e73ad9d668a41c25cb))
+
+
+### Performance Improvements
+
+* reduce background usage ([#37](https://github.com/angristan/MacThrottle/issues/37)) ([9643428](https://github.com/angristan/MacThrottle/commit/96434287b9d2608bb89f65250d2aeb5075bdece2))
+
 ## [1.8.2](https://github.com/angristan/MacThrottle/compare/v1.8.1...v1.8.2) (2026-07-11)
 
 
