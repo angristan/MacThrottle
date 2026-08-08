@@ -1,3 +1,15 @@
+# [1.9.0](https://github.com/angristan/MacThrottle/compare/v1.8.3...v1.9.0) (2026-08-08)
+
+
+### Bug Fixes
+
+* ignore constant HID temperature sensors (PMU* tcal) ([08a2e43](https://github.com/angristan/MacThrottle/commit/08a2e4355effdeb2132da99403f7635f03a918a7))
+
+
+### Features
+
+* display HID temperature sensor name ([d34c896](https://github.com/angristan/MacThrottle/commit/d34c8969e04c7d16838d24db86fadc9c71f6ee6e))
+
 ## [1.8.3](https://github.com/angristan/MacThrottle/compare/v1.8.2...v1.8.3) (2026-08-07)
 
 
