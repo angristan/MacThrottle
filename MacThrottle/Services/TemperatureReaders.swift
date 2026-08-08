@@ -328,6 +328,7 @@ final class HIDTemperatureReader {
     private typealias CreateFunc = @convention(c) (CFAllocator?) -> IOHIDEventSystemClientRef?
     private typealias SetMatchingFunc = @convention(c) (IOHIDEventSystemClientRef, CFDictionary?) -> Void
     private typealias CopyServicesFunc = @convention(c) (IOHIDEventSystemClientRef) -> Unmanaged<CFArray>?
+    private typealias CopyPropertyFunc = @convention(c) (IOHIDServiceClientRef, CFString) -> Unmanaged<CFTypeRef>?
     private typealias CopyEventFunc = @convention(c) (IOHIDServiceClientRef, Int64, Int32, Int64) -> IOHIDEventRef?
     private typealias GetFloatValueFunc = @convention(c) (IOHIDEventRef, UInt32) -> Double
     private typealias ReleaseFunc = @convention(c) (OpaquePointer) -> Void
@@ -335,6 +336,7 @@ final class HIDTemperatureReader {
     private var create: CreateFunc?
     private var setMatching: SetMatchingFunc?
     private var copyServices: CopyServicesFunc?
+    private var copyProperty: CopyPropertyFunc?
     private var copyEvent: CopyEventFunc?
     private var getFloatValue: GetFloatValueFunc?
     private var release: ReleaseFunc?
@@ -363,6 +365,7 @@ final class HIDTemperatureReader {
         create = unsafeBitCast(dlsym(handle, "IOHIDEventSystemClientCreate"), to: CreateFunc?.self)
         setMatching = unsafeBitCast(dlsym(handle, "IOHIDEventSystemClientSetMatching"), to: SetMatchingFunc?.self)
         copyServices = unsafeBitCast(dlsym(handle, "IOHIDEventSystemClientCopyServices"), to: CopyServicesFunc?.self)
+        copyProperty = unsafeBitCast(dlsym(handle, "IOHIDServiceClientCopyProperty"), to: CopyPropertyFunc?.self)
         copyEvent = unsafeBitCast(dlsym(handle, "IOHIDServiceClientCopyEvent"), to: CopyEventFunc?.self)
         getFloatValue = unsafeBitCast(dlsym(handle, "IOHIDEventGetFloatValue"), to: GetFloatValueFunc?.self)
         release = unsafeBitCast(dlsym(handle, "CFRelease"), to: ReleaseFunc?.self)
@@ -381,7 +384,8 @@ final class HIDTemperatureReader {
     func readCPUTemperature() -> TemperatureReading? {
         ensureInitialized()
 
-        guard let copyServices, let copyEvent, let getFloatValue, let release, let client else { return nil }
+        guard let copyServices, let copyProperty, let copyEvent,
+              let getFloatValue, let release, let client else { return nil }
 
         guard let copiedServices = copyServices(client) else { return nil }
         let services = copiedServices.takeRetainedValue()
@@ -391,6 +395,10 @@ final class HIDTemperatureReader {
 
         for i in 0..<count {
             let service = unsafeBitCast(CFArrayGetValueAtIndex(services, i), to: IOHIDServiceClientRef.self)
+            let product = copyProperty(service, kIOHIDProductKey as CFString)?
+                .takeRetainedValue() as? String ?? "Unknown"
+
+            guard !(product.hasPrefix("PMU") && product.hasSuffix(" tcal")) else { continue }
 
             if let event = copyEvent(service, kIOHIDEventTypeTemperature, 0, 0) {
                 let temp = getFloatValue(event, kIOHIDEventFieldTemperatureLevel)
