@@ -230,7 +230,7 @@ final class SMCReader {
             }
         }
 
-        let reading = maxTemp > 0 ? TemperatureReading(value: maxTemp, source: maxKey) : nil
+        let reading = maxTemp > 0 ? TemperatureReading(value: maxTemp, source: "\(maxKey) (SMC)") : nil
         return (reading, validKeys)
     }
 
@@ -391,6 +391,7 @@ final class HIDTemperatureReader {
         let services = copiedServices.takeRetainedValue()
 
         var maxTemp: Double = 0
+        var maxProduct: String = ""
         let count = CFArrayGetCount(services)
 
         for i in 0..<count {
@@ -405,10 +406,11 @@ final class HIDTemperatureReader {
                 release(event)
                 if temp > maxTemp && temp < 150 {
                     maxTemp = temp
+                    maxProduct = product
                 }
             }
         }
 
-        return maxTemp > 0 ? TemperatureReading(value: maxTemp, source: "HID") : nil
+        return maxTemp > 0 ? TemperatureReading(value: maxTemp, source: "\(maxProduct) (HID)") : nil
     }
 }
