@@ -96,6 +96,7 @@ struct HistoryGraphView: View {
                 .onPreferenceChange(WidthPreferenceKey.self) { graphWidth = $0 }
                 .overlay(alignment: .topTrailing) {
                     tooltipView
+                        .allowsHitTesting(false)
                 }
 
             HStack {
