@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/angristan/MacThrottle/compare/v1.9.0...v1.9.1) (2026-08-10)
+
+
+### Bug Fixes
+
+* fail dev target on build errors ([f3f022f](https://github.com/angristan/MacThrottle/commit/f3f022fd54a466bcf7feae8086717cbb50eb100e))
+
 # [1.9.0](https://github.com/angristan/MacThrottle/compare/v1.8.3...v1.9.0) (2026-08-08)
 
 
