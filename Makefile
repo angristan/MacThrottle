@@ -1,5 +1,7 @@
 .PHONY: dev build kill open clean
 
+SHELL := /bin/bash
+
 APP_NAME := MacThrottle
 BUILD_DIR := .build
 APP_PATH := $(BUILD_DIR)/Build/Products/Debug/$(APP_NAME).app
@@ -8,7 +10,7 @@ dev: build kill open
 
 build:
 	@echo "Building $(APP_NAME)..."
-	@xcodebuild -scheme $(APP_NAME) -configuration Debug -derivedDataPath $(BUILD_DIR) build 2>&1 | tail -5
+	@set -o pipefail; xcodebuild -scheme $(APP_NAME) -configuration Debug -derivedDataPath $(BUILD_DIR) build 2>&1 | tail -5
 
 kill:
 	@pkill -x $(APP_NAME) 2>/dev/null || true
