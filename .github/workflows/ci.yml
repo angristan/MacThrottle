@@ -66,6 +66,14 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build
 
+      - name: Upload PR app
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: MacThrottle-PR-${{ github.event.pull_request.number }}
+          path: build/Build/Products/Release/MacThrottle.app
+          if-no-files-found: error
+
   release:
     name: Release
     runs-on: macos-26
