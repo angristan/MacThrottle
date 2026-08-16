@@ -3,7 +3,7 @@ import SwiftUI
 import UserNotifications
 
 @Observable
-final class ThermalMonitor {
+final class ThermalMonitor: NSObject, UNUserNotificationCenterDelegate {
     // MARK: - Constants
     private static let historyDurationSeconds: TimeInterval = 600  // 10 minutes
     private static let pollIntervalSeconds: TimeInterval = 2.0
@@ -74,9 +74,21 @@ final class ThermalMonitor {
         return Date().timeIntervalSince(first.timestamp)
     }
 
-    init() {
+    override init() {
+        super.init()
+        UNUserNotificationCenter.current().delegate = self
         requestNotificationPermission()
         startMonitoring()
+    }
+
+    // MARK: - UNUserNotificationCenterDelegate
+
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .sound])
     }
 
     deinit {
