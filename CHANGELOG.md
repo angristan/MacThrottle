@@ -1,3 +1,11 @@
+## [1.9.2](https://github.com/angristan/MacThrottle/compare/v1.9.1...v1.9.2) (2026-08-16)
+
+
+### Bug Fixes
+
+* graph tooltip ignores cursor ([#40](https://github.com/angristan/MacThrottle/issues/40)) ([5a64785](https://github.com/angristan/MacThrottle/commit/5a64785bde1cd4d336755dfa48dd87b509b94191))
+* monospaced digit menu bar icon ([#39](https://github.com/angristan/MacThrottle/issues/39)) ([fd03e1d](https://github.com/angristan/MacThrottle/commit/fd03e1df456eba58f6b2665ced8f65cccaa55e99))
+
 ## [1.9.1](https://github.com/angristan/MacThrottle/compare/v1.9.0...v1.9.1) (2026-08-10)
 
 
