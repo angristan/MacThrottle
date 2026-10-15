@@ -17,6 +17,7 @@ struct HistoryGraphView: View {
     // MARK: - Properties
     let history: [HistoryEntry]
     var showFanSpeed: Bool = true
+    var temperatureUnit: TemperatureUnit = .system
     @State private var hoverLocation: CGPoint?
 
     private var historyDuration: TimeInterval {
@@ -215,8 +216,8 @@ struct HistoryGraphView: View {
             let range = temperatureRange
             let labelStyle = Font.system(size: 8)
             let labelColor = Color.secondary.opacity(0.8)
-            let maxLabel = Text("\(Int(range.max))°").font(labelStyle).foregroundColor(labelColor)
-            let minLabel = Text("\(Int(range.min))°").font(labelStyle).foregroundColor(labelColor)
+            let maxLabel = Text(formatTemperature(range.max)).font(labelStyle).foregroundColor(labelColor)
+            let minLabel = Text(formatTemperature(range.min)).font(labelStyle).foregroundColor(labelColor)
             context.draw(maxLabel, at: CGPoint(x: 4, y: 4), anchor: .topLeading)
             context.draw(minLabel, at: CGPoint(x: 4, y: size.height - 4), anchor: .bottomLeading)
 
@@ -278,14 +279,14 @@ struct HistoryGraphView: View {
                 let timeStr = timeAgo < 60 ? "\(timeAgo)s ago" : "\(timeAgo / 60)m ago"
                 let fanStr = showFanSpeed ? entry.fanSpeed.map { " • Fan \(Int($0))%" } ?? "" : ""
                 if #available(macOS 26.0, *) {
-                    Text("\(Int(temp))° • \(entry.pressure.displayName)\(fanStr) • \(timeStr)")
+                    Text("\(formatTemperature(temp)) • \(entry.pressure.displayName)\(fanStr) • \(timeStr)")
                         .font(.system(size: 8, weight: .medium))
                         .padding(.horizontal, 6)
                         .padding(.vertical, 3)
                         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 6))
                         .padding(4)
                 } else {
-                    Text("\(Int(temp))° • \(entry.pressure.displayName)\(fanStr) • \(timeStr)")
+                    Text("\(formatTemperature(temp)) • \(entry.pressure.displayName)\(fanStr) • \(timeStr)")
                         .font(.system(size: 8, weight: .medium))
                         .padding(.horizontal, 6)
                         .padding(.vertical, 3)
@@ -294,6 +295,10 @@ struct HistoryGraphView: View {
                 }
             }
         }
+    }
+
+    private func formatTemperature(_ celsius: Double) -> String {
+        "\(Int(temperatureUnit.convert(celsius).rounded()))°"
     }
 
     private func formatTimeAgo(_ interval: TimeInterval) -> String {

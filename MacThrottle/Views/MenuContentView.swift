@@ -22,7 +22,7 @@ struct MenuContentView: View {
                     .fontWeight(.semibold)
                 Spacer()
                 if let temp = monitor.temperature {
-                    Text("\(Int(temp.rounded()))°C")
+                    Text("\(Int(monitor.temperatureUnit.convert(temp).rounded()))\(monitor.temperatureUnit.symbol)")
                         .foregroundColor(colorForTemperature(temp))
                         .fontWeight(.semibold)
                         .help("Source: \(monitor.temperatureSource ?? "Unknown")")
@@ -31,7 +31,11 @@ struct MenuContentView: View {
             .font(.headline)
 
             if monitor.history.count >= 2 {
-                HistoryGraphView(history: monitor.history, showFanSpeed: monitor.showFanSpeed)
+                HistoryGraphView(
+                    history: monitor.history,
+                    showFanSpeed: monitor.showFanSpeed,
+                    temperatureUnit: monitor.temperatureUnit
+                )
             }
 
             if !monitor.timeInEachState.isEmpty {
@@ -64,6 +68,14 @@ struct MenuContentView: View {
 
             Toggle("Show Temperature in Menu Bar", isOn: $monitor.showTemperatureInMenuBar)
                 .controlSize(.small)
+
+            Picker("Temperature", selection: $monitor.temperatureUnit) {
+                ForEach(TemperatureUnit.allCases) { unit in
+                    Text(unit.displayName).tag(unit)
+                }
+            }
+            .pickerStyle(.segmented)
+            .controlSize(.small)
 
             Divider()
 

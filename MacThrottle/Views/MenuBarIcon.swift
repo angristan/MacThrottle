@@ -4,6 +4,7 @@ struct MenuBarIcon: View {
     let pressure: ThermalPressure
     let temperature: Double?
     let showTemperature: Bool
+    let temperatureUnit: TemperatureUnit
 
     var body: some View {
         Image(systemName: iconName)
@@ -13,7 +14,7 @@ struct MenuBarIcon: View {
                 getStatusItems()?.first?.button?.font = .monospacedDigitSystemFont(ofSize: 13, weight: .regular)
             }
         if showTemperature, let temp = temperature {
-            Text("\(Int(temp.rounded()))°")
+            Text("\(Int(temperatureUnit.convert(temp).rounded()))°")
         }
     }
 

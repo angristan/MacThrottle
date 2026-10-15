@@ -46,6 +46,11 @@ final class ThermalMonitor {
         didSet { UserDefaults.standard.set(showTemperatureInMenuBar, forKey: "showTemperatureInMenuBar") }
     }
 
+    // swiftlint:disable:next line_length
+    var temperatureUnit: TemperatureUnit = UserDefaults.standard.string(forKey: "temperatureUnit").flatMap(TemperatureUnit.init) ?? .system {
+        didSet { UserDefaults.standard.set(temperatureUnit.rawValue, forKey: "temperatureUnit") }
+    }
+
     var timeInEachState: [(pressure: ThermalPressure, duration: TimeInterval)] {
         guard history.count >= 2 else { return [] }
 
